@@ -74,7 +74,9 @@
     lua_getglobal(L, "CaseOne");
     [GLDLuaHelper convertToLuaTable:dict lua:L];
     
-    lua_call(L, 1, 0);    
+    lua_call(L, 1, 0);
+    lua_close(L);
+    
     return YES;
 }
 
@@ -91,10 +93,11 @@
     if (lua_istable(L, -1)) {
         id r = [GLDLuaHelper convertFromLuaTable:L];
         NSLog(@"Result is:\n%@\n", r);
-        
+        lua_close(L);
         return YES;
     }
     else {
+        lua_close(L);
         return NO;
     }
 }
